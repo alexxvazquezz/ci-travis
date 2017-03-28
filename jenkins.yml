@@ -1,0 +1,17 @@
+---
+- hosts: all
+  sudo: true
+
+  tasks:
+    - name: Add Jenkins Repo
+      apt_repository:
+        repo: wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+
+    - name: Execute Script
+      command: echo 'deb https://pkg.jenkins.io/debian binary/' > /etc/apt/sources.list
+
+    - name: Apt update
+      apt: update_cache=yes
+
+    - name: Install Jenkins
+      apt: name=jenkins state=latest
